@@ -1,0 +1,73 @@
+How does the K-Means Algorithm Work?
+The working of the K-Means algorithm is explained in the below steps:
+
+Step-1: Select the number K to decide the number of clusters.
+
+Step-2: Select random K points or centroids. (It can be other from the input dataset).
+
+Step-3: Assign each data point to their closest centroid, which will form the predefined K clusters.
+
+Step-4: Calculate the variance and place a new centroid of each cluster.
+
+Step-5: Repeat the third steps, which means reassign each datapoint to the new closest centroid of each cluster.
+
+Step-6: If any reassignment occurs, then go to step-4 else go to FINISH.
+
+Step-7: The model is ready.
+
+
+
+
+What are the uses of image segmentation?
+Image result for uses of k means image segmentation
+Image segmentation is a key building block of computer vision technologies and algorithms. It is used for many practical applications including medical image analysis, computer vision for autonomous vehicles, face recognition and detection, video surveillance, and satellite image analysis
+
+
+
+
+the basic summary is that HSV is better for object detection,
+
+OpenCV usually captures images and videos in 8-bit, unsigned integer, BGR format. In other words, captured images can be considered as 3 matrices, BLUE,RED and GREEN with integer values ranges from 0 to 255.
+
+How BGR image is formed In the above image, each small box represents a pixel of the image. In real images, these pixels are so small that human eye cannot differentiate.
+
+Usually, one can think that BGR color space is more suitable for color based segmentation. But HSV color space is the most suitable color space for color based image segmentation. So, in the above application, I have converted the color space of original image of the video from BGR to HSV image.
+
+HSV color space is consists of 3 matrices, 'hue', 'saturation' and 'value'. In OpenCV, value range for 'hue', 'saturation' and 'value' are respectively 0-179, 0-255 and 0-255. 'Hue' represents the color, 'saturation' represents the amount to which that respective color is mixed with white and 'value' represents the amount to which that respective color is mixed with black.
+
+
+
+
+The cv2.kmeans() function in the OpenCV computer vision library is used to perform the k-means clustering. The parameters for this function are:
+
+vectorized: The input data to be clustered, which in this case is the vectorized version of an image.
+
+K: The number of clusters to form, which is set to 3 in this example.
+
+None: This parameter specifies the initial guesses for the cluster centers, which are randomly initialized by default. By setting this parameter to None, the algorithm will use the default initialization method.
+
+criteria: The termination criteria for the algorithm, which was defined in the previous line of code.
+
+attempts: The number of times the algorithm will be run with different initializations. This parameter is set to 10, which means that the algorithm will be run 10 times.
+
+cv2.KMEANS_PP_CENTERS: This parameter specifies the method for choosing initial cluster centers. The cv2.KMEANS_PP_CENTERS method is a variation of the k-means++ algorithm that helps to choose the initial centers in a smarter way.
+
+
+The cv2.kmeans() function returns three values:
+
+ret: The value of the objective function, which is a measure of how well the clustering algorithm has partitioned the data into clusters.
+
+label: An array of integers representing the cluster assignments for each data point in the input vectorized array.
+
+center: An array of floating point numbers representing the center of each cluster in the input vectorized array.
+
+
+
+
+After applying k-means clustering to an image and obtaining the label array and the center array, the code res = center[label.flatten()] creates a new array res by indexing the center array with the label array flattened into a 1D array. This operation assigns the color value of the centroid of the cluster to each pixel in the original image based on the cluster assignment of that pixel.
+
+The label.flatten() method returns a 1D array with the cluster label assigned to each pixel in the image. The label array has the same shape as the original image, where each element contains the index of the cluster to which the corresponding pixel belongs.
+
+The center array has the same number of rows as the number of clusters found by the k-means algorithm, and each row contains the centroid of one of the clusters. The res array is created by indexing the center array with the label array flattened into a 1D array, so that each element in the resulting res array corresponds to the centroid of the cluster to which the corresponding pixel belongs.
+
+Finally, the code result_image = res.reshape((img.shape)) reshapes the 1D res array back into a 2D array with the same shape as the original image, where each element in the resulting result_image array corresponds to the color value of the centroid of the cluster to which the corresponding pixel belongs. This produces the final result of the k-means clustering algorithm, where each pixel in the original image is replaced by the color of the centroid of the cluster to which it belongs.
